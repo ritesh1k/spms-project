@@ -21,6 +21,9 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
+# Legacy generated reports
+legacy/downloads/marksheets/*.pdf
+
 # distribution
 dist/
 build/
