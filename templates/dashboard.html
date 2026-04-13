@@ -8,9 +8,15 @@
 </head>
 <body>
   <div class="container">
-    <h1>Dashboard</h1>
-    <p>The Flask scaffold is ready. You can now migrate your SPMS features here.</p>
-    <a class="button" href="/">Back to home</a>
+    <div class="dashboard">
+      <h1>Dashboard</h1>
+      <p>Welcome, <strong>{{ username }}</strong>!</p>
+      <p>Email: {{ user_email }}</p>
+      <p>Role: <span class="role-badge">{{ role }}</span></p>
+      <p>The Flask scaffold is ready. You can now migrate your SPMS features here.</p>
+      <a class="button" href="/logout">Logout</a>
+      <a class="button button-secondary" href="/">Back to home</a>
+    </div>
   </div>
 </body>
 </html>
