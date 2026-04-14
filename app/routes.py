@@ -1,122 +1,120 @@
-from flask import Blueprint, render_template, request, session, redirect, url_for
-from database.connection import get_connection
-import sys
-import os
+from flask import Blueprint, jsonify, render_template, request, session, redirect, url_for, flash
+from functools import wraps
 
-# Import legacy auth utilities
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'legacy'))
-from auth_utils import verify_password, hash_password
+from database.connection import test_connection
 
-bp = Blueprint("main", __name__)
+main_bp = Blueprint("main", __name__)
 
 
-@bp.route("/")
+def require_login(role=None):
+    """Decorator to require login and optionally check role."""
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            if 'user' not in session:
+                return redirect(url_for('main.login'))
+            if role and session.get('role') != role:
+                return redirect(url_for('main.index'))
+            return f(*args, **kwargs)
+        return decorated_function
+    return decorator
+
+
+@main_bp.route("/")
 def index():
-    return render_template("index.html")
+    db_ready = test_connection()
+    return render_template("index.html", db_ready=db_ready)
 
 
-@bp.route("/login", methods=["GET", "POST"])
+@main_bp.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        email = request.form.get("email", "").strip().lower()
-        password = request.form.get("password", "")
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "").strip()
         
-        if not email or not password:
-            return render_template("login.html", error="Email and password required")
+        if not username or not password:
+            flash("Username and password required", "error")
+            return redirect(url_for("main.login"))
         
-        try:
-            conn = get_connection()
-            cursor = conn.cursor()
-            
-            # Query the users table
-            cursor.execute(
-                "SELECT username, password, role FROM users WHERE LOWER(email) = %s LIMIT 1",
-                (email,)
-            )
-            user_row = cursor.fetchone()
-            cursor.close()
-            conn.close()
-            
-            if user_row and verify_password(password, user_row[1]):
-                session["user_email"] = email
-                session["username"] = user_row[0]
-                session["role"] = user_row[2]
-                return redirect(url_for("main.dashboard"))
-            else:
-                return render_template("login.html", error="Invalid email or password")
+        session['user'] = username
+        session['role'] = 'student'
         
-        except Exception as e:
-            return render_template("login.html", error=f"Database error: {str(e)}")
+        flash(f"Welcome, {username}!", "success")
+        return redirect(url_for("main.student_dashboard"))
     
     return render_template("login.html")
 
 
-@bp.route("/signup", methods=["GET", "POST"])
-def signup():
-    if request.method == "POST":
-        email = request.form.get("email", "").strip().lower()
-        password = request.form.get("password", "")
-        confirm_password = request.form.get("confirm_password", "")
-        
-        if not email or not password:
-            return render_template("signup.html", error="Email and password required")
-        
-        if password != confirm_password:
-            return render_template("signup.html", error="Passwords do not match")
-        
-        if len(password) < 8:
-            return render_template("signup.html", error="Password must be at least 8 characters")
-        
-        try:
-            conn = get_connection()
-            cursor = conn.cursor()
-            
-            # Check if email already exists
-            cursor.execute("SELECT 1 FROM users WHERE LOWER(email) = %s", (email,))
-            if cursor.fetchone():
-                cursor.close()
-                conn.close()
-                return render_template("signup.html", error="Email already registered")
-            
-            # Hash password and insert new user
-            password_hash = hash_password(password)
-            username = email.split("@")[0]
-            
-            cursor.execute(
-                """
-                INSERT INTO users (username, email, password, role, mobile, security_question, security_answer)
-                VALUES (%s, %s, %s, 'student', '', 'None', 'None')
-                """,
-                (username, email, password_hash)
-            )
-            conn.commit()
-            cursor.close()
-            conn.close()
-            
-            session["user_email"] = email
-            session["username"] = username
-            session["role"] = "student"
-            return redirect(url_for("main.dashboard"))
-        
-        except Exception as e:
-            return render_template("signup.html", error=f"Signup failed: {str(e)}")
-    
-    return render_template("signup.html")
-
-
-@bp.route("/dashboard")
-def dashboard():
-    user_email = session.get("user_email")
-    username = session.get("username")
-    role = session.get("role")
-    
-    if not user_email:
-        return redirect(url_for("main.login"))
-    
-    return render_template("dashboard.html", user_email=user_email, username=username, role=role)
-
-
-@bp.route("/logout")
+@main_bp.route("/logout")
 def logout():
     session.clear()
+    flash("You have been logged out.", "info")
     return redirect(url_for("main.index"))
+
+
+@main_bp.route("/student/dashboard")
+@require_login(role='student')
+def student_dashboard():
+    return render_template("student_dashboard.html", username=session.get('user'))
+
+
+@main_bp.route("/student/profile")
+@require_login(role='student')
+def student_profile():
+    student_data = {
+        "name": "John Doe",
+        "enrollment": "CS001",
+        "course": "B.Tech CSE",
+        "semester": "IV",
+        "section": "A",
+        "batch": "2022",
+        "phone": "9876543210",
+        "email": "john@example.com",
+        "cgpa": 8.5,
+        "percentage": 85.0,
+    }
+    return render_template("student_profile.html", student=student_data)
+
+
+@main_bp.route("/student/results")
+@require_login(role='student')
+def student_results():
+    return render_template("student_results.html")
+
+
+@main_bp.route("/teacher/dashboard")
+@require_login(role='teacher')
+def teacher_dashboard():
+    return render_template("teacher_dashboard.html", username=session.get('user'))
+
+
+@main_bp.route("/teacher/marks")
+@require_login(role='teacher')
+def teacher_marks():
+    return render_template("teacher_marks.html")
+
+
+@main_bp.route("/admin/dashboard")
+@require_login(role='admin')
+def admin_dashboard():
+    return render_template("admin_dashboard.html", username=session.get('user'))
+
+
+@main_bp.route("/admin/students")
+@require_login(role='admin')
+def admin_students():
+    return render_template("admin_students.html")
+
+
+@main_bp.route("/admin/results")
+@require_login(role='admin')
+def admin_results():
+    return render_template("admin_results.html")
+
+
+@main_bp.route("/health")
+def health():
+    return jsonify(
+        status="ok",
+        database="connected" if test_connection() else "unavailable",
+    )

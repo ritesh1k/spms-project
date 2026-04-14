@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Publish Results - SPMS{% endblock %}
+
+{% block content %}
+<style>
+  .container { padding: 30px; background: #f5f7fa; min-height: 100vh; }
+  .header { margin-bottom: 20px; }
+  .header h1 { margin: 0; color: #1d2230; }
+  .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+  .form-group { margin-bottom: 15px; }
+  .form-group label { display: block; color: #5f6777; font-weight: bold; margin-bottom: 5px; }
+  .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+  .btn { padding: 10px 20px; background: #1f6f8b; color: white; border: none; border-radius: 4px; cursor: pointer; }
+  .btn:hover { background: #134b61; }
+  table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+  th { background: #1f6f8b; color: white; padding: 12px; text-align: left; }
+  td { padding: 12px; border-bottom: 1px solid #e5e5e5; }
+  .back-link { color: #1f6f8b; text-decoration: none; margin-bottom: 20px; display: inline-block; }
+</style>
+
+<div class="container">
+  <a href="{{ url_for('main.admin_dashboard') }}" class="back-link">← Back to Dashboard</a>
+  
+  <div class="header">
+    <h1>Publish Results</h1>
+  </div>
+
+  <div class="card">
+    <h2>Select Criteria</h2>
+    <form method="post">
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+        <div class="form-group">
+          <label for="course">Course</label>
+          <select id="course" name="course" required>
+            <option value="">Select Course</option>
+            <option value="B.Tech CSE">B.Tech CSE</option>
+            <option value="Bachelor of Science">Bachelor of Science</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="semester">Semester</label>
+          <select id="semester" name="semester" required>
+            <option value="">Select Semester</option>
+            <option value="IV">Semester IV</option>
+            <option value="VI">Semester VI</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <select id="subject" name="subject" required>
+            <option value="">Select Subject</option>
+            <option value="Data Structures">Data Structures</option>
+            <option value="Database Systems">Database Systems</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="btn">Filter Results</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Internal Results Ready for Publication</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Enrollment</th>
+          <th>Name</th>
+          <th>Subject</th>
+          <th>Internal Total</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CS001</td>
+          <td>John Doe</td>
+          <td>Data Structures</td>
+          <td>35/40</td>
+          <td><span style="color: orange;">Ready for External Marks</span></td>
+          <td><button class="btn" style="padding: 5px 10px; font-size: 0.9rem;">Add External</button></td>
+        </tr>
+        <tr>
+          <td>CS002</td>
+          <td>Jane Smith</td>
+          <td>Data Structures</td>
+          <td>38/40</td>
+          <td><span style="color: orange;">Ready for External Marks</span></td>
+          <td><button class="btn" style="padding: 5px 10px; font-size: 0.9rem;">Add External</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

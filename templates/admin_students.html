@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Students - SPMS{% endblock %}
+
+{% block content %}
+<style>
+  .container { padding: 30px; background: #f5f7fa; min-height: 100vh; }
+  .header { margin-bottom: 20px; }
+  .header h1 { margin: 0; color: #1d2230; }
+  .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+  .btn { padding: 10px 20px; background: #1f6f8b; color: white; text-decoration: none; border-radius: 4px; display: inline-block; margin: 10px 10px 10px 0; }
+  .btn-success { background: #2ecc71; }
+  table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+  th { background: #1f6f8b; color: white; padding: 12px; text-align: left; }
+  td { padding: 12px; border-bottom: 1px solid #e5e5e5; }
+  .back-link { color: #1f6f8b; text-decoration: none; margin-bottom: 20px; display: inline-block; }
+</style>
+
+<div class="container">
+  <a href="{{ url_for('main.admin_dashboard') }}" class="back-link">← Back to Dashboard</a>
+  
+  <div class="header">
+    <h1>Manage Students</h1>
+  </div>
+
+  <div class="card">
+    <div style="margin-bottom: 20px;">
+      <a href="{{ url_for('main.index') }}" class="btn btn-success">+ Add New Student</a>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Enrollment</th>
+          <th>Name</th>
+          <th>Course</th>
+          <th>Semester</th>
+          <th>Section</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CS001</td>
+          <td>John Doe</td>
+          <td>B.Tech CSE</td>
+          <td>IV</td>
+          <td>A</td>
+          <td>john@example.com</td>
+          <td><a href="{{ url_for('main.index') }}" class="btn" style="padding: 5px 10px; font-size: 0.9rem;">Edit</a></td>
+        </tr>
+        <tr>
+          <td>CS002</td>
+          <td>Jane Smith</td>
+          <td>B.Tech CSE</td>
+          <td>IV</td>
+          <td>A</td>
+          <td>jane@example.com</td>
+          <td><a href="{{ url_for('main.index') }}" class="btn" style="padding: 5px 10px; font-size: 0.9rem;">Edit</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

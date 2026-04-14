@@ -1,19 +1,37 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SPMS Home</title>
-  <link rel="stylesheet" href="/static/css/styles.css">
-</head>
-<body>
-  <div class="container">
-    <h1>SPMS</h1>
-    <p>Welcome to the Student Performance Management System.</p>
-    <div class="button-group">
-      <a class="button" href="/login">Sign In</a>
-      <a class="button button-secondary" href="/signup">Sign Up</a>
+{% extends "base.html" %}
+
+{% block title %}SPMS | Home{% endblock %}
+
+{% block content %}
+<main class="hero-card">
+  <div class="hero-copy">
+    <span class="eyebrow">SPMS</span>
+    <h1>Student Performance Management System</h1>
+    <p>
+      The Flask scaffold is ready. The legacy Tkinter application remains in
+      <strong>legacy/</strong> while the new web entrypoint and database helper
+      are available for migration.
+    </p>
+    <div class="actions">
+      <a class="primary-link" href="/health">Check health</a>
+      <span class="status-pill {{ 'is-live' if db_ready else 'is-down' }}">
+        Database {{ 'connected' if db_ready else 'unavailable' }}
+      </span>
     </div>
   </div>
-</body>
-</html>
+  <section class="feature-grid" aria-label="Project highlights">
+    <article>
+      <h2>Clean layout</h2>
+      <p>App package, config, database, templates, and static assets.</p>
+    </article>
+    <article>
+      <h2>Deployment ready</h2>
+      <p>Gunicorn Procfile and environment-based configuration included.</p>
+    </article>
+    <article>
+      <h2>Legacy preserved</h2>
+      <p>Original MySQL/Tkinter workflows stay available for reference.</p>
+    </article>
+  </section>
+</main>
+{% endblock %}

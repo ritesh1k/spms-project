@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Teacher Dashboard - SPMS{% endblock %}
+
+{% block content %}
+<style>
+  .dashboard { padding: 30px; background: #f5f7fa; min-height: 100vh; }
+  .dashboard-header { margin-bottom: 30px; }
+  .dashboard-header h1 { margin: 0; color: #1d2230; font-size: 2rem; }
+  .nav-tabs { display: flex; gap: 10px; margin: 20px 0; border-bottom: 2px solid #e5e5e5; }
+  .nav-tabs a { padding: 10px 20px; text-decoration: none; color: #5f6777; border-bottom: 2px solid transparent; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 30px; }
+  .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+  .card h3 { margin-top: 0; color: #1d2230; }
+  .btn { display: inline-block; padding: 10px 20px; background: #1f6f8b; color: white; text-decoration: none; border-radius: 4px; margin-top: 10px; }
+</style>
+
+<div class="dashboard">
+  <div class="dashboard-header">
+    <h1>Welcome, {{ username }}!</h1>
+    <p>Teaching Dashboard</p>
+  </div>
+
+  <div class="nav-tabs">
+    <a href="{{ url_for('main.teacher_dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('main.teacher_marks') }}">Enter Marks</a>
+    <a href="{{ url_for('main.logout') }}">Logout</a>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>📝 Enter Internal Marks</h3>
+      <p>Enter internal marks for your assigned students including assignment, attendance, and class tests.</p>
+      <a href="{{ url_for('main.teacher_marks') }}" class="btn">Enter Marks</a>
+    </div>
+
+    <div class="card">
+      <h3>👥 Assigned Courses</h3>
+      <p>View courses and semesters you are assigned to teach.</p>
+      <a href="{{ url_for('main.index') }}" class="btn">View Assignments</a>
+    </div>
+
+    <div class="card">
+      <h3>❓ Student Queries</h3>
+      <p>Resolve student doubts and questions submitted through the system.</p>
+      <a href="{{ url_for('main.index') }}" class="btn">View Queries</a>
+    </div>
+
+    <div class="card">
+      <h3>📢 Post Announcements</h3>
+      <p>Share announcements and updates with your classes.</p>
+      <a href="{{ url_for('main.index') }}" class="btn">Post Announcement</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

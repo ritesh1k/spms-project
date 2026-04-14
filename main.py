@@ -11,7 +11,7 @@ from auth_utils import (
     verify_password,
 )
 from db_config import get_connection
-from dashboard import open_dashboard
+from login.dashboard import open_dashboard
 from modules.sync_legacy_accounts import run_one_time_sync
 
 _BG_IMAGE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "bg.png")

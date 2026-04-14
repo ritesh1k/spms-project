@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Student Profile - SPMS{% endblock %}
+
+{% block content %}
+<style>
+  .profile { padding: 30px; background: #f5f7fa; min-height: 100vh; }
+  .profile-header { margin-bottom: 20px; }
+  .profile-header h1 { margin: 0; color: #1d2230; }
+  .profile-card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+  .profile-card h2 { color: #1f6f8b; margin-top: 0; border-bottom: 2px solid #e5e5e5; padding-bottom: 10px; }
+  .profile-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 15px 0; }
+  .profile-field { }
+  .profile-label { color: #5f6777; font-size: 0.9rem; font-weight: bold; }
+  .profile-value { color: #1d2230; font-size: 1rem; margin-top: 5px; }
+  .back-link { color: #1f6f8b; text-decoration: none; margin-bottom: 20px; display: inline-block; }
+</style>
+
+<div class="profile">
+  <a href="{{ url_for('main.student_dashboard') }}" class="back-link">← Back to Dashboard</a>
+  
+  <div class="profile-header">
+    <h1>Student Profile</h1>
+  </div>
+
+  <div class="profile-card">
+    <h2>Personal Information</h2>
+    <div class="profile-row">
+      <div class="profile-field">
+        <div class="profile-label">Name</div>
+        <div class="profile-value">{{ student.name }}</div>
+      </div>
+      <div class="profile-field">
+        <div class="profile-label">Enrollment Number</div>
+        <div class="profile-value">{{ student.enrollment }}</div>
+      </div>
+      <div class="profile-field">
+        <div class="profile-label">Email</div>
+        <div class="profile-value">{{ student.email }}</div>
+      </div>
+      <div class="profile-field">
+        <div class="profile-label">Phone</div>
+        <div class="profile-value">{{ student.phone }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <h2>Academic Details</h2>
+    <div class="profile-row">
+      <div class="profile-field">
+        <div class="profile-label">Course</div>
+        <div class="profile-value">{{ student.course }}</div>
+      </div>
+      <div class="profile-field">
+        <div class="profile-label">Semester</div>
+        <div class="profile-value">{{ student.semester }}</div>
+      </div>
+      <div class="profile-field">
+        <div class="profile-label">Section</div>
+        <div class="profile-value">{{ student.section }}</div>
+      </div>
+      <div class="profile-field">
+        <div class="profile-label">Batch</div>
+        <div class="profile-value">{{ student.batch }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <h2>Performance Summary</h2>
+    <div class="profile-row">
+      <div class="profile-field">
+        <div class="profile-label">CGPA</div>
+        <div class="profile-value" style="font-size: 1.5rem; color: #1f6f8b;">{{ student.cgpa }}</div>
+      </div>
+      <div class="profile-field">
+        <div class="profile-label">Percentage</div>
+        <div class="profile-value" style="font-size: 1.5rem; color: #1f6f8b;">{{ student.percentage }}%</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
