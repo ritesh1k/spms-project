@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}My Results - SPMS{% endblock %}
+
+{% block content %}
+<h1>My Results</h1>
+
+<div class="results-container">
+    {% if results %}
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Internal</th>
+                    <th>External</th>
+                    <th>Total</th>
+                    <th>Grade</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                    <tr>
+                        <td>{{ result.subject }}</td>
+                        <td>{{ result.internal }}</td>
+                        <td>{{ result.external }}</td>
+                        <td><strong>{{ result.total }}</strong></td>
+                        <td><span class="grade-badge">{{ result.grade }}</span></td>
+                        <td>
+                            <span class="status-badge status-{{ result.status.lower() }}">
+                                {{ result.status }}
+                            </span>
+                        </td>
+                        <td>{{ result.date }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="no-results">
+            <p>No results published yet.</p>
+        </div>
+    {% endif %}
+
+    <div class="action-buttons">
+        <a href="{{ url_for('main.student_dashboard') }}" class="btn btn-secondary">Back</a>
+    </div>
+</div>
+
+<style>
+    .results-container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        margin: 20px 0;
+    }
+    
+    .results-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+    
+    .results-table th {
+        background-color: var(--accent);
+        color: white;
+        padding: 12px;
+        text-align: left;
+        font-weight: 600;
+    }
+    
+    .results-table td {
+        padding: 12px;
+        border-bottom: 1px solid var(--border);
+    }
+    
+    .results-table tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .grade-badge {
+        background: var(--accent);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-weight: 600;
+    }
+    
+    .status-badge {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-weight: 600;
+    }
+    
+    .status-pass {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    
+    .status-fail {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+    
+    .no-results {
+        text-align: center;
+        padding: 40px 20px;
+        color: #666;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+        justify-content: center;
+    }
+    
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+    }
+</style>
+{% endblock %}

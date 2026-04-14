@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Teacher Dashboard - SPMS{% endblock %}
+
+{% block content %}
+<h1>Teacher Dashboard</h1>
+<p>Welcome, {{ username }}!</p>
+
+<div class="dashboard-info">
+    <div class="info-card">
+        <h3>Assigned Subjects</h3>
+        {% if subjects %}
+            <ul class="subjects-list">
+                {% for subject in subjects %}
+                    <li>
+                        <strong>{{ subject.subject }}</strong>
+                        <span class="subject-info">{{ subject.course }} - Semester {{ subject.semester }} ({{ subject.section }})</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No subjects assigned yet.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="dashboard-grid">
+    <a href="{{ url_for('main.teacher_marks') }}" class="dashboard-card">
+        <h3>📝 Enter Internal Marks</h3>
+        <p>Submit student assignment, attendance, and class test marks</p>
+    </a>
+    <a href="{{ url_for('main.index') }}" class="dashboard-card">
+        <h3>❓ Help</h3>
+        <p>Get help and support</p>
+    </a>
+</div>
+
+<style>
+    .dashboard-info {
+        margin: 30px 0;
+    }
+    
+    .info-card {
+        background: white;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+    }
+    
+    .info-card h3 {
+        color: var(--accent);
+        margin-bottom: 15px;
+    }
+    
+    .subjects-list {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .subjects-list li {
+        padding: 12px;
+        margin-bottom: 10px;
+        background: #f8f9fa;
+        border-left: 4px solid var(--accent);
+        border-radius: 4px;
+    }
+    
+    .subjects-list strong {
+        color: var(--accent);
+    }
+    
+    .subject-info {
+        display: block;
+        font-size: 0.9em;
+        color: #666;
+        margin-top: 5px;
+    }
+    
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+    }
+    
+    .dashboard-card {
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        text-decoration: none;
+        color: inherit;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .dashboard-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .dashboard-card h3 {
+        color: var(--accent);
+        margin-bottom: 10px;
+    }
+</style>
+{% endblock %}

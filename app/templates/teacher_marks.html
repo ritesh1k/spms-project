@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block title %}Enter Internal Marks - SPMS{% endblock %}
+
+{% block content %}
+<h1>Enter Internal Marks</h1>
+
+<div class="marks-container">
+    <form method="POST" class="marks-form">
+        <div class="form-section">
+            <h3>Student Information</h3>
+            
+            <div class="form-group">
+                <label for="enrollment_no">Student Enrollment Number</label>
+                <input type="text" id="enrollment_no" name="enrollment_no" required placeholder="e.g., CS2021001">
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Subject Information</h3>
+            
+            <div class="form-group">
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject" required placeholder="e.g., Data Structures">
+            </div>
+            
+            <div class="form-group">
+                <label for="semester">Semester</label>
+                <select id="semester" name="semester" required>
+                    <option value="">-- Select Semester --</option>
+                    <option value="I">I</option>
+                    <option value="II">II</option>
+                    <option value="III">III</option>
+                    <option value="IV">IV</option>
+                    <option value="V">V</option>
+                    <option value="VI">VI</option>
+                    <option value="VII">VII</option>
+                    <option value="VIII">VIII</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Marks</h3>
+            
+            <div class="form-group">
+                <label for="assignment">Assignment Marks <span class="max">(Max: 10)</span></label>
+                <input type="number" id="assignment" name="assignment" min="0" max="10" step="0.5" required placeholder="0-10">
+            </div>
+            
+            <div class="form-group">
+                <label for="attendance">Attendance <span class="max">(Max: 10)</span></label>
+                <input type="number" id="attendance" name="attendance" min="0" max="10" step="0.5" required placeholder="0-10">
+            </div>
+            
+            <div class="class-tests">
+                <h4>Class Tests (Best 2 out of 3 will be considered)</h4>
+                
+                <div class="form-group">
+                    <label for="ct1">Class Test 1 <span class="max">(Max: 20)</span></label>
+                    <input type="number" id="ct1" name="ct1" min="0" max="20" step="0.5" required placeholder="0-20">
+                </div>
+                
+                <div class="form-group">
+                    <label for="ct2">Class Test 2 <span class="max">(Max: 20)</span></label>
+                    <input type="number" id="ct2" name="ct2" min="0" max="20" step="0.5" required placeholder="0-20">
+                </div>
+                
+                <div class="form-group">
+                    <label for="ct3">Class Test 3 <span class="max">(Max: 20)</span></label>
+                    <input type="number" id="ct3" name="ct3" min="0" max="20" step="0.5" required placeholder="0-20">
+                </div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <p><strong>Note:</strong> Internal marks are calculated as: Assignment (10) + Attendance (10) + Best two class tests (20) = Total 40</p>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Submit Marks</button>
+            <a href="{{ url_for('main.teacher_dashboard') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<style>
+    .marks-container {
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        margin: 20px 0;
+        max-width: 600px;
+    }
+    
+    .form-section {
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border);
+    }
+    
+    .form-section:last-of-type {
+        border-bottom: none;
+    }
+    
+    .form-section h3 {
+        color: var(--accent);
+        margin-bottom: 20px;
+        font-size: 1.1em;
+    }
+    
+    .class-tests {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 4px;
+        margin: 20px 0;
+    }
+    
+    .class-tests h4 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        color: #333;
+        font-size: 0.95em;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .form-group .max {
+        font-size: 0.85em;
+        color: #666;
+        font-weight: normal;
+    }
+    
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        font-size: 1em;
+        font-family: inherit;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(79, 86, 255, 0.1);
+    }
+    
+    .info-box {
+        background: #e7f3ff;
+        border-left: 4px solid var(--accent);
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 4px;
+        color: #333;
+    }
+    
+    .form-actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 25px;
+    }
+    
+    .btn {
+        flex: 1;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        text-decoration: none;
+        text-align: center;
+        display: inline-block;
+    }
+    
+    .btn-primary {
+        background-color: var(--accent);
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background-color: #3f46e0;
+    }
+    
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+</style>
+{% endblock %}

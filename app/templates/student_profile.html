@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile - SPMS{% endblock %}
+
+{% block content %}
+<h1>Student Profile</h1>
+
+{% if student.get('error') %}
+    <div class="alert alert-warning">{{ student.error }}</div>
+{% endif %}
+
+<div class="profile-container">
+    <div class="profile-card">
+        <h2>Personal Information</h2>
+        <div class="profile-grid">
+            <div class="profile-item">
+                <label>Name</label>
+                <p>{{ student.get('name', 'N/A') }}</p>
+            </div>
+            <div class="profile-item">
+                <label>Enrollment No</label>
+                <p>{{ student.get('enrollment', 'N/A') }}</p>
+            </div>
+            <div class="profile-item">
+                <label>Email</label>
+                <p>{{ student.get('email', 'N/A') }}</p>
+            </div>
+            <div class="profile-item">
+                <label>Phone</label>
+                <p>{{ student.get('phone', 'N/A') }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-card">
+        <h2>Academic Information</h2>
+        <div class="profile-grid">
+            <div class="profile-item">
+                <label>Course</label>
+                <p>{{ student.get('course', 'N/A') }}</p>
+            </div>
+            <div class="profile-item">
+                <label>Semester</label>
+                <p>{{ student.get('semester', 'N/A') }}</p>
+            </div>
+            <div class="profile-item">
+                <label>Section</label>
+                <p>{{ student.get('section', 'N/A') }}</p>
+            </div>
+            <div class="profile-item">
+                <label>Department</label>
+                <p>{{ student.get('department', 'N/A') }}</p>
+            </div>
+            <div class="profile-item">
+                <label>Batch</label>
+                <p>{{ student.get('batch', 'N/A') }}</p>
+            </div>
+            <div class="profile-item">
+                <label>Date of Birth</label>
+                <p>{{ student.get('dob', 'N/A') }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-card">
+        <h2>Performance</h2>
+        <div class="performance-stats">
+            <div class="stat">
+                <span class="stat-label">CGPA</span>
+                <span class="stat-value">{{ "%.2f"|format(student.get('cgpa', 0)) }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <a href="{{ url_for('main.student_results') }}" class="btn btn-primary">View Results</a>
+        <a href="{{ url_for('main.student_dashboard') }}" class="btn btn-secondary">Back</a>
+    </div>
+</div>
+
+<style>
+    .profile-container {
+        max-width: 900px;
+        margin: 20px 0;
+    }
+    
+    .profile-card {
+        background: white;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        margin-bottom: 20px;
+    }
+    
+    .profile-card h2 {
+        color: var(--accent);
+        margin-bottom: 20px;
+        border-bottom: 2px solid var(--border);
+        padding-bottom: 10px;
+    }
+    
+    .profile-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+    
+    .profile-item {
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 4px;
+    }
+    
+    .profile-item label {
+        display: block;
+        font-weight: 600;
+        color: var(--accent);
+        margin-bottom: 5px;
+        font-size: 0.9em;
+    }
+    
+    .profile-item p {
+        margin: 0;
+        color: #333;
+    }
+    
+    .performance-stats {
+        display: flex;
+        gap: 30px;
+        justify-content: center;
+        margin: 20px 0;
+    }
+    
+    .stat {
+        text-align: center;
+    }
+    
+    .stat-label {
+        display: block;
+        color: #666;
+        font-size: 0.9em;
+        margin-bottom: 10px;
+    }
+    
+    .stat-value {
+        display: block;
+        font-size: 2em;
+        color: var(--accent);
+        font-weight: bold;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+        justify-content: center;
+    }
+    
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Students - SPMS{% endblock %}
+
+{% block content %}
+<h1>Manage Students</h1>
+
+<div class="filter-section">
+    <form method="GET" class="filter-form">
+        <div class="filter-group">
+            <input type="text" name="department" placeholder="Filter by Department" value="{{ request.args.get('department', '') }}">
+        </div>
+        <div class="filter-group">
+            <input type="text" name="course" placeholder="Filter by Course" value="{{ request.args.get('course', '') }}">
+        </div>
+        <div class="filter-group">
+            <select name="semester">
+                <option value="">-- Select Semester --</option>
+                <option value="I" {% if request.args.get('semester') == 'I' %}selected{% endif %}>I</option>
+                <option value="II" {% if request.args.get('semester') == 'II' %}selected{% endif %}>II</option>
+                <option value="III" {% if request.args.get('semester') == 'III' %}selected{% endif %}>III</option>
+                <option value="IV" {% if request.args.get('semester') == 'IV' %}selected{% endif %}>IV</option>
+                <option value="V" {% if request.args.get('semester') == 'V' %}selected{% endif %}>V</option>
+                <option value="VI" {% if request.args.get('semester') == 'VI' %}selected{% endif %}>VI</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+</div>
+
+<div class="students-container">
+    {% if students %}
+        <table class="students-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Enrollment</th>
+                    <th>Course</th>
+                    <th>Semester</th>
+                    <th>Section</th>
+                    <th>Department</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                    <tr>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.enrollment }}</td>
+                        <td>{{ student.course }}</td>
+                        <td>{{ student.semester }}</td>
+                        <td>{{ student.section }}</td>
+                        <td>{{ student.department }}</td>
+                        <td>
+                            <a href="#" class="btn-action">View</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="no-results">
+            <p>No students found.</p>
+        </div>
+    {% endif %}
+</div>
+
+<div class="action-buttons">
+    <a href="{{ url_for('main.admin_dashboard') }}" class="btn btn-secondary">Back</a>
+</div>
+
+<style>
+    .filter-section {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        margin-bottom: 20px;
+    }
+    
+    .filter-form {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        align-items: flex-end;
+    }
+    
+    .filter-group {
+        flex: 1;
+        min-width: 180px;
+    }
+    
+    .filter-group input,
+    .filter-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        font-size: 1em;
+    }
+    
+    .students-container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        margin: 20px 0;
+        overflow-x: auto;
+    }
+    
+    .students-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .students-table th {
+        background-color: var(--accent);
+        color: white;
+        padding: 12px;
+        text-align: left;
+        font-weight: 600;
+    }
+    
+    .students-table td {
+        padding: 12px;
+        border-bottom: 1px solid var(--border);
+    }
+    
+    .students-table tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .btn-action {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        padding: 4px 8px;
+    }
+    
+    .btn-action:hover {
+        text-decoration: underline;
+    }
+    
+    .no-results {
+        text-align: center;
+        padding: 40px 20px;
+        color: #666;
+    }
+    
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+</style>
+{% endblock %}
